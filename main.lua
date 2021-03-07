@@ -1,31 +1,15 @@
-push = require '/dependencies/push'
-
-Class = require 'dependencies/class'
-
-require '/dependencies/StateMachine'
-require '/dependencies/BaseState'
-
-require '/states/TitleScreenState'
-require '/states/PlayState'
-require '/states/TripState'
-require '/states/HelpState'
-
---1280 800
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 800
-
-
---600 375
-VIRTUAL_WIDTH = 1280
-VIRTUAL_HEIGHT = 800
+require 'dependencies'
 
 function love.load()
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 
-	love.window.setTitle('Trippy Happy')
+	love.window.setTitle('Squid')
 
-	pixelFont = love.graphics.newFont('fonts/Pixel.ttf', 40)
-	love.graphics.setFont(pixelFont)
+	love.mouse.setVisible(false)
+
+	inkTitleFont = love.graphics.newFont('fonts/inky.ttf', 100)
+	inkNormalFont = love.graphics.newFont('fonts/inky.ttf', 60)
+	inkSmallFont = love.graphics.newFont('fonts/inky.ttf', 40)
 
 	sounds = {
 		--['titleMusic'] = love.audio.newSource('music/titlemusic.mp3', 'static'),
@@ -64,6 +48,11 @@ function love.keypressed(key)
 	if key == 'escape' then
 		love.event.quit()
 	end
+
+	if key == 'tab' then
+		local state = not love.mouse.isVisible()
+		love.mouse.setVisible(state)
+	end
 end
 
 function love.keyboard.wasPressed(key)
@@ -98,7 +87,7 @@ function love.draw()
 end
 
 function displayFPS()
-	love.graphics.setFont(pixelFont)
+	love.graphics.setFont(inkSmallFont)
 	love.graphics.setColor(0/255, 255/255, 0/255, 255/255)
 	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end
